@@ -7,24 +7,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
-add_library(message_type src/message_type.cpp)
+add_library(MessageTypeLib src/MessageType.cpp)
 
 
-target_include_directories(message_type
+target_include_directories(MessageTypeLib
 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 
 if (MSVC)
-target_compile_options(message_type PRIVATE /W4 /permissive-)
+target_compile_options(MessageTypeLib PRIVATE /W4 /permissive-)
 else()
-target_compile_options(message_type PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_options(MessageTypeLib PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 
 # --- main ---
-add_executable(main_app src/main.cpp)
-target_link_libraries(main_app PRIVATE message_type)
+add_executable(mainApp src/main.cpp)
+target_link_libraries(mainApp PRIVATE MessageTypeLib)
 
 
 # --- GoogleTest ---
@@ -37,9 +37,9 @@ FetchContent_MakeAvailable(googletest)
 
 
 enable_testing()
-add_executable(test_message_type tests/test_message_type.cpp)
-target_link_libraries(test_message_type PRIVATE message_type gtest_main)
+add_executable(TestMessageType tests/TestMessageType.cpp)
+target_link_libraries(TestMessageType PRIVATE MessageTypeLib gtest_main)
 
 
 include(GoogleTest)
-gtest_discover_tests(test_message_type)
+gtest_discover_tests(TestMessageType)
