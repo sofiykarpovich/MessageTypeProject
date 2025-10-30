@@ -1,36 +1,31 @@
 #pragma once
+
+
 #include <string>
-#include <stdexcept>
-#include <cereal/types/string.hpp>
+#include <string_view>
+#include <iosfwd>
 
-enum class MessageType
-{
-    System,
-    Server,
-    Session
+
+namespace messaging {
+
+
+enum class MessageType {
+System,
+Server,
+Session
 };
 
-class MessageTypeConverter
-{
-public:
-    static std::string ToString(MessageType type);
-    static MessageType FromString(const std::string& str);
-};
 
-namespace cereal
-{
-    template <class Archive>
-    void save(Archive& ar, const MessageType& type)
-    {
-        std::string str = MessageTypeConverter::ToString(type);
-        ar(str);
-    }
+[[nodiscard]] std::string ToString(MessageType type);
+[[nodiscard]] bool FromString(std::string_view text, MessageType& out) noexcept;
 
-    template <class Archive>
-    void load(Archive& ar, MessageType& type)
-    {
-        std::string str;
-        ar(str);
-        type = MessageTypeConverter::FromString(str);
-    }
-}
+
+[[nodiscard]] inline std::string Serialize(MessageType type) { return ToString(type); }
+[[nodiscard]] inline bool Deserialize(std::string_view text, MessageType& out) noexcept { return FromString(text, out); }
+
+
+std::ostream& operator<<(std::ostream& os, MessageType type);
+std::istream& operator>>(std::istream& is, MessageType& type);
+
+
+} // namespace messaging
