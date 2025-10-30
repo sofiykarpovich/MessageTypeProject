@@ -30,16 +30,15 @@ target_link_libraries(mainApp PRIVATE MessageTypeLib)
 # --- GoogleTest ---
 include(FetchContent)
 FetchContent_Declare(
-googletest
-URL https://github.com/google/googletest/archive/refs/heads/main.zip
+    googletest
+    URL https://github.com/google/googletest/archive/refs/heads/main.zip
 )
 FetchContent_MakeAvailable(googletest)
 
-
 enable_testing()
-add_executable(TestMessageType tests/TestMessageType.cpp)
-target_link_libraries(TestMessageType PRIVATE MessageTypeLib gtest_main)
 
+add_executable(test_MessageType tests/test_MessageType.cpp)
+target_link_libraries(test_MessageType PRIVATE MessageTypeLib gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(TestMessageType)
+gtest_discover_tests(test_MessageType)
