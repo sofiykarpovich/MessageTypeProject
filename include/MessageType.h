@@ -12,7 +12,7 @@ Server,
 Session
 };
 
-[[nodiscard]] std::string ToString(MessageType type) noexcept;
+[[nodiscard]] constexpr std::string ToString(MessageType type) noexcept;
 [[nodiscard]] bool FromString(std::string_view text, MessageType& out) noexcept;
 
 [[nodiscard]] inline std::string Serialize(MessageType type) noexcept { return ToString(type); }
