@@ -2,6 +2,9 @@
 #include <sstream>
 #include <vector>
 #include "MessageType.h"
+
+using namespace messaging;
+
 TEST(MessageTypeTest, ToStringBasics) {
 EXPECT_EQ(ToString(MessageType::System), "system");
 EXPECT_EQ(ToString(MessageType::Server), "server");
