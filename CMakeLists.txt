@@ -22,6 +22,11 @@ target_compile_options(message_type PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 
+# --- main ---
+add_executable(main_app src/main.cpp)
+target_link_libraries(main_app PRIVATE message_type)
+
+
 # --- GoogleTest ---
 include(FetchContent)
 FetchContent_Declare(
