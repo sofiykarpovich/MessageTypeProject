@@ -1,29 +1,38 @@
 #include <iostream>
-#include <sstream>
-#include <cereal/archives/json.hpp>
 #include "MessageType.h"
 
-int main()
-{
-    MessageType type = MessageType::Server;
 
-    std::stringstream ss;
-    {
-        cereal::JSONOutputArchive archive(ss);
-        archive(cereal::make_nvp("message_type", type));
-    }
+using namespace messaging;
 
-    std::cout << "Serialized JSON:\n" << ss.str() << std::endl;
 
-    MessageType deserializedType;
-    {
-        cereal::JSONInputArchive archive(ss);
-        archive(cereal::make_nvp("message_type", deserializedType));
-    }
+int main() {
+std::cout << "=== MessageType Example ===\n";
 
-    std::cout << "Deserialized Type: "
-              << MessageTypeConverter::ToString(deserializedType)
-              << std::endl;
 
-    return 0;
+// Пример сериализации
+MessageType type = MessageType::Server;
+std::string serialized = Serialize(type);
+std::cout << "Serialized: " << serialized << "\n";
+
+
+// Пример десериализации
+MessageType parsed;
+if (Deserialize("session", parsed)) {
+std::cout << "Deserialized: " << ToString(parsed) << "\n";
+} else {
+std::cout << "Failed to deserialize!\n";
+}
+
+
+// Использование операторов ввода/вывода
+std::cout << "Enter message type (system/server/session): ";
+MessageType userType;
+if (std::cin >> userType) {
+std::cout << "You entered: " << userType << "\n";
+} else {
+std::cerr << "Invalid input!\n";
+}
+
+
+return 0;
 }
